@@ -4,9 +4,26 @@ import { OrbitControls, Environment, useGLTF } from "@react-three/drei";
 function Avatar() {
   const { scene } = useGLTF("/models/avatar.glb");
 
+  return (
+    <primitive
+      object={scene}
+      scale={2}
+      position={[0, -2, 0]}
+    />
+  );
+}
+
+function Hoodie() {
+  const { scene } = useGLTF("/models/clothing/tops/hoodie.glb");
+
   scene.traverse((object) => {
-    if (object.isMesh) {
-      console.log("MESH:", object.name);
+    if (object.isMesh || object.isSkinnedMesh) {
+      console.log(
+        "HOODIE:",
+        object.name,
+        "skinned:",
+        object.isSkinnedMesh
+      );
     }
   });
 
@@ -17,7 +34,6 @@ function Avatar() {
       position={[0, -2, 0]}
     />
   );
-
 }
 
 export default function App() {
@@ -32,6 +48,8 @@ export default function App() {
         />
 
         <Avatar />
+
+        <Hoodie />
 
         <Environment preset="studio" />
 
