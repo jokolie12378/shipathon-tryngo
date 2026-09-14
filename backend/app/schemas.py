@@ -73,3 +73,24 @@ class StoreOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+# ---------- CLOTHING INPUT (for POST /clothing) ----------
+
+class ClothingSizeIn(BaseModel):
+    size: str
+    chest: Optional[float] = None
+    waist: Optional[float] = None
+    length: Optional[float] = None
+    shoulder: Optional[float] = None
+    sleeve: Optional[float] = None
+
+class ClothingIn(BaseModel):
+    brand: str
+    name: str
+    category: str          # "hoodie","tee","jeans","sneakers","jacket"
+    fit_type: str           # "oversized","regular","slim"
+    style_tags: str          # comma-separated: "streetwear,casual"
+    price: float
+    image_url: str
+    store_id: Optional[int] = None
+    sizes: List[ClothingSizeIn]
