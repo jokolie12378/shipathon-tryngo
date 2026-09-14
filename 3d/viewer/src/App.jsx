@@ -1,31 +1,28 @@
+import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment, useGLTF } from "@react-three/drei";
 
-function Avatar() {
-  const { scene } = useGLTF("/models/avatar.glb");
+const avatars = [
+  {
+    name: "Default",
+    file: "avatar.glb",
+  },
+  {
+    name: "Chill",
+    file: "chill_outfit.glb",
+  },
+  {
+    name: "Military",
+    file: "military_outfit.glb",
+  },
+  {
+    name: "Business Casual",
+    file: "business_casual.glb",
+  },
+];
 
-  return (
-    <primitive
-      object={scene}
-      scale={2}
-      position={[0, -2, 0]}
-    />
-  );
-}
-
-function Hoodie() {
-  const { scene } = useGLTF("/models/clothing/tops/hoodie.glb");
-
-  scene.traverse((object) => {
-    if (object.isMesh || object.isSkinnedMesh) {
-      console.log(
-        "HOODIE:",
-        object.name,
-        "skinned:",
-        object.isSkinnedMesh
-      );
-    }
-  });
+function Avatar({ file }) {
+  const { scene } = useGLTF(`/models/${file}`);
 
   return (
     <primitive
@@ -37,22 +34,41 @@ function Hoodie() {
 }
 
 export default function App() {
+  const [selectedAvatar, setSelectedAvatar] = useState(avatars[0]);
+
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
-      <Canvas camera={{ position: [0, 1, 5], fov: 45 }}>
+      <div
+        style={{
+          position: "absolute",
+          top: 20,
+          left: 20,
+          zIndex: 10,
+          display: "flex",
+          gap: 10,
+        }}
+      >
+        {avatars.map((avatar) => (
+          <button
+            key={avatar.file}
+            onClick={() => setSelectedAvatar(avatar)}
+            style={{
+              padding: "10px 16px",
+              cursor: "pointer",
+            }}
+          >
+            {avatar.name}
+          </button>
+        ))}
+      </div>
+
+      <Canvas camera={{ position: [0, 1, 6], fov: 45 }}>
         <ambientLight intensity={1} />
+        <directionalLight position={[5, 5, 5]} intensity={2} />
 
-        <directionalLight
-          position={[5, 5, 5]}
-          intensity={2}
-        />
-
-        <Avatar />
-
-        <Hoodie />
+        <Avatar file={selectedAvatar.file} />
 
         <Environment preset="studio" />
-
         <OrbitControls />
       </Canvas>
     </div>
