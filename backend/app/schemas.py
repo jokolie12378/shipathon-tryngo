@@ -33,7 +33,6 @@ class FitFeedbackIn(BaseModel):
     size: str
     feedback: str  # "too_tight" | "good" | "too_loose"
 
-# ---------- OUTPUT SCHEMAS ----------
 
 class ClothingItemOut(BaseModel):
     id: int
