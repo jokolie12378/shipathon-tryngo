@@ -1,3 +1,4 @@
+# app/models.py
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from app.database import Base
@@ -5,13 +6,13 @@ from app.database import Base
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
-    height = Column(Float)        # inches
+    height = Column(Float)
     chest = Column(Float)
     waist = Column(Float)
     hips = Column(Float)
     inseam = Column(Float)
     shoulders = Column(Float)
-    photo_url = Column(String, nullable=True)  # set if P3's photo pipeline produced measurements/avatar ref
+    photo_url = Column(String, nullable=True)
 
 class StyleProfile(Base):
     __tablename__ = "style_profiles"
@@ -29,9 +30,9 @@ class Clothing(Base):
     id = Column(Integer, primary_key=True, index=True)
     brand = Column(String)
     name = Column(String)
-    category = Column(String)      # "hoodie", "tee", "jeans", "sneakers"
-    fit_type = Column(String)      # "oversized", "regular", "slim"
-    style_tags = Column(String)    # comma-separated: "streetwear,casual"
+    category = Column(String)
+    fit_type = Column(String)
+    style_tags = Column(String)
     price = Column(Float)
     image_url = Column(String)
     store_id = Column(Integer, ForeignKey("stores.id"))
@@ -42,7 +43,7 @@ class ClothingSize(Base):
     __tablename__ = "clothing_sizes"
     id = Column(Integer, primary_key=True, index=True)
     clothing_id = Column(Integer, ForeignKey("clothing.id"))
-    size = Column(String)          # "S","M","L"
+    size = Column(String)
     chest = Column(Float, nullable=True)
     waist = Column(Float, nullable=True)
     length = Column(Float, nullable=True)
@@ -56,7 +57,7 @@ class FitPreference(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     category = Column(String)
-    preferred_fit = Column(String)  # "oversized","regular","slim"
+    preferred_fit = Column(String)
 
 class FitFeedback(Base):
     __tablename__ = "fit_feedback"
@@ -64,13 +65,13 @@ class FitFeedback(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     clothing_id = Column(Integer, ForeignKey("clothing.id"))
     size = Column(String)
-    feedback = Column(String)  # "too_tight","good","too_loose"
+    feedback = Column(String)
 
 class Swipe(Base):
     __tablename__ = "swipes"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
-    outfit_id = Column(Integer)
+    clothing_id = Column(Integer, ForeignKey("clothing.id"))
     direction = Column(String)  # "left","right"
 
 class Store(Base):

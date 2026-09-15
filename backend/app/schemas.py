@@ -1,5 +1,8 @@
+# app/schemas.py
 from pydantic import BaseModel
 from typing import Optional, List
+
+# ---------- INPUT SCHEMAS ----------
 
 class MeasurementsIn(BaseModel):
     height: float
@@ -8,10 +11,10 @@ class MeasurementsIn(BaseModel):
     hips: float
     inseam: float
     shoulders: float
-    photo_url: Optional[str] = None  # set if P3's photo pipeline produced this
+    photo_url: Optional[str] = None
 
 class StyleAnswer(BaseModel):
-    styles: dict[str, float]  # e.g. {"streetwear": 1, "casual": 0.5}
+    styles: dict[str, float]
 
 class StyleProfileIn(BaseModel):
     user_id: int
@@ -20,19 +23,20 @@ class StyleProfileIn(BaseModel):
 class FitPreferenceIn(BaseModel):
     user_id: int
     category: str
-    preferred_fit: str  # "oversized" | "regular" | "slim"
+    preferred_fit: str
 
 class SwipeIn(BaseModel):
     user_id: int
-    outfit_id: int
+    clothing_id: int
     direction: str  # "left" | "right"
 
 class FitFeedbackIn(BaseModel):
     user_id: int
     clothing_id: int
     size: str
-    feedback: str  # "too_tight" | "good" | "too_loose"
+    feedback: str
 
+# ---------- OUTPUT SCHEMAS ----------
 
 class ClothingItemOut(BaseModel):
     id: int
@@ -87,9 +91,9 @@ class ClothingSizeIn(BaseModel):
 class ClothingIn(BaseModel):
     brand: str
     name: str
-    category: str          # "hoodie","tee","jeans","sneakers","jacket"
-    fit_type: str           # "oversized","regular","slim"
-    style_tags: str          # comma-separated: "streetwear,casual"
+    category: str
+    fit_type: str
+    style_tags: str
     price: float
     image_url: str
     store_id: Optional[int] = None
