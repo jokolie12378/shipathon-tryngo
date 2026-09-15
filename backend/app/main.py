@@ -1,14 +1,15 @@
 from fastapi import FastAPI
 from app.database import Base, engine
 from app import models
-from app.routers import clothing
+from app.routers import clothing, measurements
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="FitSwipe API")
+app = FastAPI(title="Tryngo API")
 
 @app.get("/")
 def root():
-    return {"status": "FitSwipe API running"}
+    return {"status": "Tryngo API running"}
 
 app.include_router(clothing.router)
+app.include_router(measurements.router)
