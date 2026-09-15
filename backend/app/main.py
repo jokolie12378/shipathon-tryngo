@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from app.database import Base, engine
 from app import models
-from app.routers import clothing, measurements
+from app.routers import clothing, measurements, style
 
 Base.metadata.create_all(bind=engine)
 
@@ -13,3 +13,4 @@ def root():
 
 app.include_router(clothing.router)
 app.include_router(measurements.router)
+app.include_router(style.router)
