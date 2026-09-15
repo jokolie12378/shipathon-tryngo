@@ -3,6 +3,21 @@ import requests
 
 BASE_URL = "http://127.0.0.1:8000"
 
+STORES = [
+    {"name": "Nike San Marcos", "address": "123 Main St", "lat": 29.8833, "lng": -97.9414},
+    {"name": "Levi's Outlet", "address": "456 Oak Ave", "lat": 29.8801, "lng": -97.9380},
+    {"name": "Uniqlo Mall", "address": "789 Center Blvd", "lat": 29.8850, "lng": -97.9400},
+    {"name": "Carhartt WIP", "address": "321 Pine St", "lat": 29.8820, "lng": -97.9430},
+    {"name": "Adidas Store", "address": "555 Elm St", "lat": 29.8790, "lng": -97.9450},
+    {"name": "New Balance", "address": "222 Maple Dr", "lat": 29.8860, "lng": -97.9390},
+    {"name": "Zara Mall", "address": "789 Center Blvd", "lat": 29.8850, "lng": -97.9400},
+    {"name": "H&M Mall", "address": "789 Center Blvd", "lat": 29.8850, "lng": -97.9400},
+    {"name": "Champion Store", "address": "111 Cedar Ln", "lat": 29.8810, "lng": -97.9420},
+]
+
+# Maps each item's index in ITEMS to a store's index in STORES
+ITEM_STORE_MAP = [0, 1, 0, 2, 3, 4, 5, 6, 7, 8]
+
 ITEMS = [
     {
         "brand": "Nike", "name": "Oversized Tech Fleece Hoodie",
@@ -113,7 +128,19 @@ ITEMS = [
 ]
 
 def load():
-    for item in ITEMS:
+    store_ids = []
+    for store in STORES:
+        r = requests.post(f"{BASE_URL}/stores/", json=store)
+        if r.status_code == 200:
+            store_ids.append(r.json()["id"])
+            print(f"Added store: {store['name']}")
+        else:
+            print(f"FAILED store: {store['name']} -> {r.status_code} {r.text}")
+            store_ids.append(None)
+
+    for i, item in enumerate(ITEMS):
+        store_idx = ITEM_STORE_MAP[i]
+        item["store_id"] = store_ids[store_idx]
         r = requests.post(f"{BASE_URL}/clothing/", json=item)
         if r.status_code == 200:
             print(f"Added: {item['brand']} {item['name']}")
