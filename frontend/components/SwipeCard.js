@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Image, Text, View, Dimensions } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
@@ -15,6 +15,11 @@ const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
 export default function SwipeCard({ item, onSwipe }) {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
+
+  useEffect(() => {
+    translateX.value = 0;
+    translateY.value = 0;
+  }, [item]);
 
   const gesture = Gesture.Pan()
     .onUpdate((event) => {

@@ -9,13 +9,9 @@ export default function MeasurementsScreen({ navigation }) {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() =>
-          navigation.navigate("AvatarPreview", {
-            outfit: { shirt: null, pants: null, shoes: null },
-          })
-        }
+        onPress={() => navigation.navigate("Swipe")}
       >
-        <Text style={styles.buttonText}>Skip to Preview (test)</Text>
+        <Text style={styles.buttonText}>Continue</Text>
       </TouchableOpacity>
     </View>
   );
