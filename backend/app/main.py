@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from app.database import Base, engine
 from app import models
-from app.routers import clothing, measurements, style, outfit, swipe, buy, tryon
+from app.routers import clothing, measurements, style, outfit, swipe, buy, tryon, stores
 
 Base.metadata.create_all(bind=engine)
 
@@ -19,3 +19,4 @@ app.include_router(outfit.router)
 app.include_router(swipe.router)
 app.include_router(buy.router)
 app.include_router(tryon.router)
+app.include_router(stores.router)
